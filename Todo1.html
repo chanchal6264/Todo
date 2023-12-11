@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Todo List</title>
+    <style>
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        button {
+            margin-left: 10px;
+            background-color: #ff5733;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simple Todo List</h1>
+    <input type="text" id="todoInput" placeholder="Add a new todo">
+    <button onclick="addTodo()">Add</button>
+    <ul id="todoList"></ul>
+
+    <script>
+        const todoList = document.getElementById("todoList");
+        const todoInput = document.getElementById("todoInput");
+
+        function addTodo() {
+            const todoText = todoInput.value.trim();
+
+            if (todoText !== "") {
+                const listItem = document.createElement("li");
+                listItem.innerHTML = `
+                    <span>${todoText}</span>
+                    <button onclick="removeTodo(this)">Delete</button>
+                `;
+
+                todoList.appendChild(listItem);
+                todoInput.value = "";
+            }
+        }
+
+        function removeTodo(button) {
+            const listItem = button.parentElement;
+            todoList.removeChild(listItem);
+        }
+
+        todoInput.addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                addTodo();
+            }
+        });
+    </script>
+</body>
+</html>

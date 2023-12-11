@@ -1,0 +1,74 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="main">
+        <textarea rows="10" id="tt"></textarea>note
+        <button id="addData">add</button>
+        <button id="dlt">delete</button>
+    </div>
+    <div id="read"></div>notes
+</body>
+<script>
+    let tt = document.getElementById("tt");
+    let addData = document.getElementById("addData");
+    let dlt = document.getElementById("dlt");
+    let read = document.getElementById("read");
+
+    dlt.addEventListener('click', () => {
+        tt.value = "";
+    })
+/*function dlt() {
+        displayValue = "";
+        document.getElementById("dlt").value = displayValue;
+    }*/
+    addData.addEventListener('click', () => {
+        if (localStorage.getItem('read') == null) {
+            localStorage.setItem('read', JSON.stringify([]));
+        } else {
+            let list = JSON.parse(localStorage.getItem('read'));
+            list.unshift(tt.value);
+            localStorage.setItem('read', JSON.stringify(list));
+            location.reload();
+        }
+    })
+
+    if (localStorage.getItem('read') == null) {
+        read.innerHTML = "EMPTY";
+    } else {
+        JSON.parse(localStorage.getItem('read')).map((value, index) => {
+            read.innerHTML += `<div>${value}<i class="fa-sharp fa-solid fa-trash"></i></div>
+            <button id="edit">Edit</button>`;
+            const add_edit = document.getElementById("edit");
+            add_edit.addEventListener("click", save_data);
+        })
+
+        function save_data() {
+            const save_text = document.getElementById("read");
+
+            /*  if (save_text.style.display === "none") {
+                  save_text.style.display = "block";
+              } else {
+                  save_text.style.display = "none";
+              }*/
+
+            if (save_text.style.display === "none") {
+                save_text.style.display = "block";
+            } else {
+                save_text.style.display = "block";
+            }
+        }
+    }
+    read.querySelectorAll('.fa-sharp').forEach((value, index) => {
+        value.addEventListener("click", () => {
+            x = JSON.parse(localStorage.getItem('read'));
+            x.splice(index, 1);
+            localStorage.setItem('read', JSON.stringify(x));
+            location.reload();
+        })
+    })
+</script>
+</html>
